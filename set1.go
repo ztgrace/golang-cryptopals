@@ -36,7 +36,6 @@ func xor(a []byte, b []byte) ([]byte) {
     return res
 }
 
-// a
 func singleXor(xorkey byte, bytes []byte) ([]byte) {
     res := make([]byte, len(bytes))
 
@@ -53,7 +52,7 @@ func scoreEnglish(b []byte)(float32) {
 
     for i := 0; i < len(b); i++ {
         //if b[i] >= 0x20 && b[i] <= 0x7e {
-        if b[i] >= 0x41 && b[i] <= 0x7a {
+        if b[i] >= 0x20 && b[i] <= 0x7a {
             count++
         }
     }
