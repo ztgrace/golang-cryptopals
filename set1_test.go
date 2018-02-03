@@ -1,8 +1,9 @@
 package cryptopals
 
 import (
+	"io/ioutil"
+	b64 "encoding/base64"
 	"bufio"
-	"crypto/aes"
 	"log"
 	"os"
 	"testing"
@@ -86,7 +87,28 @@ func TestChal4(t *testing.T) {
 	log.Printf("chal4: key: %v, score: %f, res: %s, orig: %s", matchedKey, topScore, matchedRes, origString)
 }
 
+func readFile(t *testing.T, file string) []byte {
+	fin, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return fin
+}
+
+func base64Decode(t *testing.T, s string) []byte {
+	b, err := b64.StdEncoding.DecodeString(s)
+	if err != nil {
+		t.Fatal("failed to decode: %s", s)
+	}
+	return b
+}
+
 func TestChal7(t *testing.T) {
-	file := "data/set1/7.txt"
+	f := readFile(t, "data/set1/7.txt")
+	ciphertext := base64Decode(t, string(f))
+	// blocksize is picked based on keylength
+	key := []byte("YELLOW SUBMARINE")
+	out := decryptECB(key, ciphertext)
+	log.Printf("chal7: %s", out)
 	
 }
