@@ -98,3 +98,22 @@ func decryptECB(key []byte, bytes []byte) []byte {
 
 	return decrypted
 }
+
+func detectECB(size int, bytes []byte) bool {
+	if len(bytes) % size != 0 {
+		panic("Ciphertext length isn't a multiple of the block size.")
+	}
+
+	blocks := make(map[string]int)
+	for i := 0; i < len(bytes); i += size {
+		block := bytes[i:i+size]
+		count := blocks[string(block)]
+		if count > 0 {
+			return true
+		}
+		count += 1
+		blocks[string(block)] = count
+	}
+
+	return false
+}

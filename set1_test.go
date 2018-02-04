@@ -112,3 +112,19 @@ func TestChal7(t *testing.T) {
 	log.Printf("chal7: %s", out)
 	
 }
+
+func TestChal8(t *testing.T) {
+	file, _ := os.Open("data/set1/8.txt")
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		ct := scanner.Text()
+		raw, e := hex_decode(ct)
+		if e != nil {
+			t.Fatal("Failed to decode %v", ct)
+		}
+		if detectECB(16, raw) {
+			log.Printf("chal8: %s", ct)
+		}
+
+	}
+}
